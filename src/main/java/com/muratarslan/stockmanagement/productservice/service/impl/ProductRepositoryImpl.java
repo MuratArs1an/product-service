@@ -1,6 +1,8 @@
 package com.muratarslan.stockmanagement.productservice.service.impl;
 
 import com.muratarslan.stockmanagement.productservice.enums.Language;
+import com.muratarslan.stockmanagement.productservice.exception.enums.FriendlyMessageCode;
+import com.muratarslan.stockmanagement.productservice.exception.exception.ProductNotCreatedException;
 import com.muratarslan.stockmanagement.productservice.repository.ProductRepository;
 import com.muratarslan.stockmanagement.productservice.repository.entity.Product;
 import com.muratarslan.stockmanagement.productservice.request.ProductCreateRequest;
@@ -28,6 +30,8 @@ public class ProductRepositoryImpl implements IProductRepositoryService {
                     .build();
             Product productResponse=productRepository.save(product);
             log.debug("[{}][createProduct] -> response:",this.getClass().getSimpleName(), productResponse);
+        }catch(Exception e){
+            throw new ProductNotCreatedException(language, FriendlyMessageCode.PRODUCT_NOT_CREATED_EXCEPTİON,"product request: "+ productCreateRequest.toString());
         }
         return null;
     }
